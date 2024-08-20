@@ -6,6 +6,7 @@ using WebProject.Dto;
 using WebProject.Infrastructure;
 using WebProject.Interfaces;
 using WebProject.Models;
+using static WebProject.Models.DriveStatus;
 
 namespace WebProject.Services
 {
@@ -18,6 +19,40 @@ namespace WebProject.Services
             _mapper = mapper;
             _db = db;
         }
+
+        public void AcceptDrive(long id, DriveAcceptDto driverId)
+        {
+            Drive drive = _db.Drives.FirstOrDefault(d => d.Id == id);
+            drive.DriveStatus = Status.In_Progress;
+            drive.DriverId = driverId.DriverId;
+            drive.UntilEndOfDrive = driverId.UntilEndOfDrive.ToLocalTime();
+            _db.SaveChanges();
+        }
+
+        public DriveDto AddDrive(DriveDto driveDto)
+        {
+            Drive drive = _mapper.Map<Drive>(driveDto);
+            _db.Drives.Add(drive);
+            _db.SaveChanges();
+            return _mapper.Map<DriveDto>(drive);
+
+        }
+
+        public DriveDto GetDriveById(long id)
+        {
+            var drive = _db.Drives.FirstOrDefault(x => x.Id == id);
+            var driveDto = _mapper.Map<DriveDto>(drive);
+            driveDto.Status = drive.DriveStatus.ToString();
+
+            return driveDto;
+        }
+
+        public void AddRating(RatingDto rating)
+        {
+            _db.Ratings.Add(_mapper.Map<Rating>(rating));
+            _db.SaveChanges();
+        }
+
         public void AddUser(UserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
@@ -39,14 +74,47 @@ namespace WebProject.Services
           return  _db.Users.Find(id);
         }
 
+        public List<DriveDto> GetAllDrives()
+        {
+            List<Drive> drives = _db.Drives.ToList();
+            List<DriveDto> drivesDto = new List<DriveDto>();
+
+            foreach(var drive in drives)
+            {
+                drivesDto.Add(new DriveDto()
+                {
+                    Id = drive.Id,
+                    UserId = drive.UserId,
+                    DriverId = drive.DriverId,
+                    StartDestination = drive.StartDestination,
+                    EndDestination = drive.EndDestination,
+                    EstimatedPrice = drive.EstimatedPrice,
+                    Status = drive.DriveStatus.ToString()
+                });
+            }
+
+            return drivesDto;
+        }
+
         public List<UserProfilePicture> GetAllImages()
         {
             return _db.Pictures.ToList();
         }
 
+        public List<RatingDto> GetAllRatings()
+        {
+            return _mapper.Map<List<RatingDto>>(_db.Ratings.ToList());
+        }
+
         public List<User> GetAllUsers()
         {
             return _db.Users.ToList();
+        }
+
+        public long GetDriverIdFromDrive(long id)
+        {
+           Drive drive = _db.Drives.FirstOrDefault(u => u.Id == id);
+            return drive.DriverId;
         }
 
         public UserProfilePicture GetPictureByUser(string username)
@@ -98,6 +166,14 @@ namespace WebProject.Services
             _db.SaveChanges();
         }
 
+        public double UpdateDriverAverageRating(long id, float averageRating)
+        {
+            User driver = _db.Users.FirstOrDefault(x => x.Id == id);
+            driver.AverageRating = averageRating;
+            _db.SaveChanges();
+            return driver.AverageRating;
+        }
+
         public UserUpdateDto UpdateUser(long id, UserUpdateDto userDto)
         {
             User user = _db.Users.Find(id);
@@ -141,6 +217,13 @@ namespace WebProject.Services
         public void UploadPicture(UserProfilePicture picture)
         {
             _db.Pictures.Add(picture);
+            _db.SaveChanges();
+        }
+
+        public void FinishDrive(long driveId)
+        {
+            Drive drive = _db.Drives.FirstOrDefault(d => d.Id == driveId);
+            drive.DriveStatus = Status.Finished;
             _db.SaveChanges();
         }
     }

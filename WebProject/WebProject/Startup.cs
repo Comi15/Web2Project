@@ -68,6 +68,8 @@ namespace WebProject
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRepository, Repository>();
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.AddScoped<IDriveService, DriveService>();
+
 
 
 

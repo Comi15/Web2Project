@@ -1,40 +1,94 @@
-import Countdown,{ zeroPad, calcTimeDelta, formatTimeDelta } from 'react-countdown';
-import { useNavigate } from 'react-router-dom';
+import Countdown,{ zeroPad } from 'react-countdown';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Home from './Home';
+import ConditionalPopup from './ConditionalPopup';
+import { GetEstimatedTime } from './Services/DriveService';
+import { FinishDrive } from './Services/DriveService';
+
 
 const CountDown = () => {
-    const[timer,setTimer] = useState();
-    useEffect(() => {
-        setTimer(Math.round(Math.random()*(120000 - 60000) + 60000));
-    }, []);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
+  const [canClose, setCanClose] = useState(false);
+  const userRole = localStorage.getItem('role')
+  const[time, setTime] = useState('');
+  const[status,setStatus] = useState();
 
-    const renderer = ({minutes, seconds }) => (
+    useEffect(() => {
+       setIsPopupOpen(true)
+       GetEstimatedTime(location.state.driveId)
+            .then(function(response) {
+              setTime(new Date(response.data.time));
+              setStatus(response.data.driveState)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            console.log(location.state.acceptedClick)
+    }, []);
+
+    //useEffect(() => {
+    //  if(status === 'In_Progress')
+    //    window.location.reload();
+    //});
+    useEffect(() => {
+      localStorage.setItem('count',isPopupOpen) 
+    },[]);
+
+    const renderer = ({hours,minutes, seconds }) => (
         <span>
           <h2> 
-          {zeroPad(minutes)}:{zeroPad(seconds)}
+          {zeroPad(hours)}:{zeroPad(minutes)}:{zeroPad(seconds)}
           </h2>
-        </span>
+       </span>
       );
+
+    const closePopup = () => 
+    {
+      setIsPopupOpen(false)
+        localStorage.setItem('count','false')
+        if(userRole === 'user')
+        {
+          navigate('/newdrive/estimate/rate',{state:{driveId:location.state.driveId}})    
+        }
+  
+        else
+        {
+          navigate('/dashboard')
+        }
+    };
     
-    const handleComplete = (e) => {
-            navigate('/')
-            console.log(timer);
-    }
+    const handleComplete = (e) => 
+    {
+      FinishDrive(location.state.driveId)
+      .then(function(response) {
+        
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+      closePopup()
+     
+
+    }  
 
     return ( 
-     <div className='countdown-div'>
-        <h2>Time unitl the driver picks you up : </h2>
-        <br />  
-        <Countdown  
-        onComplete={handleComplete} 
-        date={Date.now() + Math.round(Math.random()*(120000 - 60000) + 60000)}
-        renderer={renderer}       
-        >
-
-        </Countdown>
-    </div>
+        <>
+          <ConditionalPopup isOpen={isPopupOpen} onClose={closePopup} canClose={canClose}>
+            {status === 'No_Driver'?<h2>Time unitl the driver picks you up: </h2>:<h2>Time unitl the drive is done: </h2>}
+            {console.log(time)}
+            { time && 
+              <Countdown
+              onComplete={handleComplete}
+              date= {time}
+              renderer={renderer}
+              >
+              </Countdown>
+            }
+            
+          </ConditionalPopup>
+        </>
      );
 }
  

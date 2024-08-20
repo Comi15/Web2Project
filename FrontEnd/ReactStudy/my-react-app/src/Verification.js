@@ -20,14 +20,14 @@ const Verification = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(clickedVerify)
+        if(clickedVerify === true)
             setClickedVerify(false)
-        if(clickedBlock)
+        if(clickedBlock === true)
             setClickedBlock(false)
 
-        if(clickedUnblock)
+        if(clickedUnblock === true)
             setClickedUnblock(false)
-        if(clickedVerifyDecline)
+        if(clickedVerifyDecline === true)
             setClickedVerifyDecline(false)   
     });
    
@@ -50,14 +50,14 @@ const Verification = () => {
             DoVerifyDriver(email)
             .then(function (response) {
                 console.log('Did verify');
-                
+                setClickedVerify(true);
                 
             })
             .catch(function (error) {
                 console.log(error);
             });
 
-            setClickedVerify(true);
+            
             navigate('/verification')
     }
 
@@ -67,6 +67,7 @@ const Verification = () => {
         DoVerifyDriverDecline(email)
         .then(function (response) {
             console.log('Did verify decline');
+            setClickedVerifyDecline(true);
             
             
         })
@@ -74,7 +75,7 @@ const Verification = () => {
             console.log(error);
         });
        
-        setClickedVerifyDecline(true);
+        
         navigate('/verification')
         
     }
@@ -84,13 +85,14 @@ const Verification = () => {
         DoBlock(email)
         .then(function (response) {
             console.log('Did block');
+            setClickedBlock(true);
             
             
         })
         .catch(function (error) {
             console.log(error);
         });
-        setClickedBlock(true);
+       
         navigate('/verification')
     }
 
@@ -99,18 +101,18 @@ const Verification = () => {
         DoUnBlock(email)
         .then(function (response) {
             console.log('Did Unblock');
+            setClickedUnblock(true);
             
             
         })
         .catch(function (error) {
             console.log(error);
         });
-        setClickedUnblock(true);
+        
         navigate('/verification')
     }
 
-    //const drivers = users.filter(user => user.role === 'driver');
-    //drivers.sort((a,b)=> (a.id < b.id) ? 1 : -1)
+    
 
     return (  
         <DriversList users={users} handleVerify={handleVerify} handleVerifyDecline={handleVerifyDecline} handleBlock={handleBlock} handleUnBlock={handleUnBlock} />

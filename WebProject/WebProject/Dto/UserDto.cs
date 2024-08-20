@@ -15,6 +15,7 @@ namespace WebProject.Dto
         public string Role { get; set; }
         public DateTime BirthDate { get; set; }
         public string Verified { get; set; }
+        public float AverageRating { get; set; }
         public bool Blocked { get; set; }
         
 

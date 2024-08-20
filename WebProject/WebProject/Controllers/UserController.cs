@@ -31,7 +31,15 @@ namespace WebProject.Controllers
                 return BadRequest();
             }
 
-            return Ok(_userService.AddUser(user));
+            var userAdded = _userService.AddUser(user);
+            if(userAdded != null)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("That email or username is already in use.");
+            }
         }
 
         [HttpPost]

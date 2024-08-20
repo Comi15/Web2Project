@@ -9,6 +9,7 @@ namespace WebProject.Infrastructure
         public Microsoft.EntityFrameworkCore.DbSet<User> Users { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<UserProfilePicture> Pictures { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Drive> Drives { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Rating> Ratings { get; set; }
         public DriveDbContext(DbContextOptions options) : base(options)
         {
         }

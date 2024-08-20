@@ -59,9 +59,16 @@ const Register = () => {
             if (password === passwordRepeat && password.length >= 8)
                 {
                     
-                    DoRegister(user);
-                    UploadPicture(form);
-                    navigate('/login');
+                    DoRegister(user)
+                    .then(function (response) {
+                        console.log('registered')
+                        UploadPicture(form);
+                        navigate('/login');
+                    })
+                    .catch(function (error) {
+                        setPassError(error.response.data)
+                    });                    
+                        
                     
 
                 }

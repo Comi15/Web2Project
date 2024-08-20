@@ -2,22 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { BrowserRouter,Routes,Route,createBrowserRouter,
+  createRoutesFromElements,RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+const router = createBrowserRouter(createRoutesFromElements(<Route path='*' element={<App />} />));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <GoogleOAuthProvider clientId="139978929335-8cgbgav1hp23639k8p984kh6h64mm01d.apps.googleusercontent.com">
   <React.StrictMode>
-    <BrowserRouter>
     <AuthProvider>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
+    <RouterProvider router={router} />
       </AuthProvider>
-    </BrowserRouter>
   </React.StrictMode>
   </GoogleOAuthProvider>
 );

@@ -319,4 +319,46 @@ margin-left: 10%;
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  pointer-events: none;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:#d2f0ea41;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it appears on top of other content */
+  pointer-events:none;
+}
+
+.popup-content {
+  background: rgb(255, 251, 251);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  pointer-events: none;
+
+}
+
+.popup-blocked-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+.popup-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }

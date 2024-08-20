@@ -20,7 +20,8 @@ namespace WebProject.Models
         public string Adress { get; set; }
 
         public List<Drive> Drives { get; set; }
-        
+        public List<Rating> Ratings { get; set; }
+        public float AverageRating { get; set; }
 
         public Verify Verified { get; set; }
         public bool Blocked { get; set; }

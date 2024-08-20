@@ -29,6 +29,7 @@ export const GetPictureName =(username) =>
 export const GetUserById =(id) =>{
     const[user,setUser] = useState({})
     const[verified,setVerified] = useState('');
+    const[blocked,setBlocked] = useState('');
     const config = {
         headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }
     }
@@ -43,6 +44,7 @@ export const GetUserById =(id) =>{
                 else
                     {
                         setVerified(res.data.verified)
+                        setBlocked(res.data.blocked)
                     }
                              
                 setUser(res.data);
@@ -53,20 +55,12 @@ export const GetUserById =(id) =>{
         })
       }, []);
 
-      return {user,verified};
+      return {user,verified,blocked};
 }
 
 
 export const DoRegister = (User) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`,User).then((res)=>{
-        console.log(User)
-        console.log(res.data)
-        console.log('registered successfully');
-      
-    })
-    .catch((error)=> {
-        console.log(error)
-    });  
+    return axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`,User);   
 }
 
 export const UploadPicture = (form) => {

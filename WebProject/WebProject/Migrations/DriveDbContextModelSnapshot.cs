@@ -26,26 +26,55 @@ namespace WebProject.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("DriveStatus")
+                        .HasColumnType("int");
+
                     b.Property<long>("DriverId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("EndDestination")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EstimatedPrice")
+                        .HasColumnType("int");
+
                     b.Property<string>("StartDestination")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UntilDriverAccept")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UntilEndOfDrive")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("driveStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Drives");
+                });
+
+            modelBuilder.Entity("WebProject.Models.Rating", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RatingNumber")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("WebProject.Models.User", b =>
@@ -57,6 +86,9 @@ namespace WebProject.Migrations
 
                     b.Property<string>("Adress")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("AverageRating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -134,9 +166,22 @@ namespace WebProject.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebProject.Models.Rating", b =>
+                {
+                    b.HasOne("WebProject.Models.User", "User")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebProject.Models.User", b =>
                 {
                     b.Navigation("Drives");
+
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,6 +16,7 @@ const ProductList = ({users,handleVerify,handleVerifyDecline,handleBlock,handleU
                     <th>Last Name</th>
                     <th>Username</th>
                     <th>Email</th>
+                    <th>Average Rating</th>
                     <th>Account status</th>
                     <th>Blocked</th>
                     <th>Verify Button</th>
@@ -32,6 +33,7 @@ const ProductList = ({users,handleVerify,handleVerifyDecline,handleBlock,handleU
                            <td>{driver.lastName}</td>
                            <td>{driver.username}</td>
                            <td>{driver.email}</td>
+                           <td>{driver.averageRating}</td>
                            <td>{driver.verified}</td>
                            <td>{driver.blocked?a:b}</td>
                            <td>{driver.verified === 'Pending' && <button onClick={() => handleVerify(driver.email)} className="verify-button">Verify</button>}</td>

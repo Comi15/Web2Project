@@ -9,6 +9,10 @@ namespace WebProject.Mapping
         public MappingProfile()
         {
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Drive, DriveDto>().ReverseMap();
+            CreateMap<Rating,RatingDto>().ReverseMap();
+
+
         }
     }
 }

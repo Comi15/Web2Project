@@ -34,7 +34,13 @@ namespace WebProject.Services
         }
         public UserDto AddUser(UserDto newUser)
         {
-            newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
+            User user = _repository.GetAllUsers().FirstOrDefault(u=> u.Email == newUser.Email || u.Username == newUser.Username);
+
+            if (user != null) { return null; }
+
+
+
+             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
              _repository.AddUser(newUser);
 
@@ -60,7 +66,8 @@ namespace WebProject.Services
                     Name = user.Name,
                     LastName = user.LastName,
                     Adress = user.Adress,
-                    BirthDate = user.BirthDate
+                    BirthDate = user.BirthDate,
+                    AverageRating = user.AverageRating
                     
                 }); 
             }
@@ -173,7 +180,8 @@ namespace WebProject.Services
                 Verified = user.Verified.ToString(),
                 Blocked = user.Blocked,
                 BirthDate = user.BirthDate,
-                Adress = user.Adress
+                Adress = user.Adress,
+                AverageRating = user.AverageRating
 
             };
 
