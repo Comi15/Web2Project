@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import ConditionalPopup from './ConditionalPopup';
 import { GetEstimatedTime } from './Services/DriveService';
 import { FinishDrive } from './Services/DriveService';
+import {HubConnectionBuilder,LogLevel} from '@microsoft/signalr';
+import Chat from './Chat';
+
 
 
 const CountDown = () => {
@@ -12,12 +15,20 @@ const CountDown = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(true);
   const [canClose, setCanClose] = useState(false);
   const userRole = localStorage.getItem('role')
+  const userName = localStorage.getItem('username')
   const[time, setTime] = useState('');
   const[status,setStatus] = useState();
+  const [connection, setConnection] = useState();
+  const [messages, setMessages] = useState([]);
 
     useEffect(() => {
        setIsPopupOpen(true)
-       GetEstimatedTime(location.state.driveId)
+        joinRoom(localStorage.getItem('username'),String(location.state.driveId),userRole)      
+          
+    }, []);
+
+    useEffect(() => {
+      GetEstimatedTime(location.state.driveId)
             .then(function(response) {
               setTime(new Date(response.data.time));
               setStatus(response.data.driveState)
@@ -26,12 +37,8 @@ const CountDown = () => {
                 console.log(error);
             });
             console.log(location.state.acceptedClick)
-    }, []);
-
-    //useEffect(() => {
-    //  if(status === 'In_Progress')
-    //    window.location.reload();
-    //});
+    });
+    
     useEffect(() => {
       localStorage.setItem('count',isPopupOpen) 
     },[]);
@@ -71,7 +78,41 @@ const CountDown = () => {
       closePopup()
      
 
-    }  
+    }
+    
+    
+    const joinRoom = async (user, room,role) => {
+      try {
+        const connection = new HubConnectionBuilder()
+          .withUrl(`${process.env.REACT_APP_API_URL}/chat`)
+          .configureLogging(LogLevel.Information)
+          .build();
+  
+        connection.on("ReceiveMessage", (user, message) => {
+          setMessages(messages => [...messages, { user, message }]);
+          console.log('message received : ', message);
+        });
+  
+  
+        await connection.start();
+        await connection.invoke("JoinRoom", { user, room, role});
+        setConnection(connection);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+
+    const sendMessage = async (message) => {
+      try {
+        await connection.invoke("SendMessage", message);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  
+    
+
 
     return ( 
         <>
@@ -86,8 +127,10 @@ const CountDown = () => {
               >
               </Countdown>
             }
-            
+            <Chat messages ={messages} sendMessage = {sendMessage} username = {userName} />
+                        
           </ConditionalPopup>
+          
         </>
      );
 }

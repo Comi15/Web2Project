@@ -333,7 +333,7 @@ margin-left: 10%;
   align-items: center;
   justify-content: center;
   z-index: 1000; /* Ensure it appears on top of other content */
-  pointer-events:none;
+
 }
 
 .popup-content {
@@ -344,7 +344,7 @@ margin-left: 10%;
   position: relative;
   max-width: 500px;
   width: 100%;
-  pointer-events: none;
+  margin-top: 300px;
 
 }
 
@@ -361,4 +361,116 @@ margin-left: 10%;
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+
+
+.chat {
+  display: grid;
+}
+
+.leave-room {
+  text-align: right;
+  margin-bottom: 4px;
+}
+
+.user-list {
+  float: left;
+  background-color: #313131;
+  color:white;
+  width: 200px;
+  height: 440px;
+  margin-right: 4px;
+}
+
+.message-container {
+  height: 400px;   
+  background-color: #3131311e;
+  overflow: auto;
+  border-radius: 15px;
+  margin-bottom: 2px;
+  margin-top: 10px;
+  
+
+}
+.from-user{
+  margin-right: 220px;
+}
+.user-message {
+  text-align: right;
+  padding-right: 5px;
+  font-size: 18px;
+  margin-top: 5px;
+  margin-right: 5px;
+  overflow-wrap: break-word;
+  
+  
+  
+}
+
+.message {
+  display: inline-flex;
+  margin: 0px auto 0px auto;
+  padding: 5px;
+  font-size: 18px;
+  color:rgb(245, 244, 244);
+  border-radius: 20px;
+  margin-top: 3px;
+  margin-left: 220px;
+  border-style: solid;
+  border-width: 3px;
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-color: #366ee7fd;
+  background-color: #366ee7;
+  overflow-wrap: break-word;
+  
+}
+
+.message2 {
+  display: inline-flex;
+  margin: 0px auto 0px auto;
+  padding: 5px;
+  font-size: 18px;
+  color:rgb(245, 244, 244);
+  border-radius: 20px;
+  margin-top: 3px;
+  margin-right: 220px;
+  border-style: solid;
+  border-width: 3px;
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-color: #36e76bfd;
+  background-color: #36e76bfd;
+  overflow-wrap: break-word;
+
+  
+}
+.chat-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.send-message {
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+  margin-top: 7px;
+  margin-left: 20px;
+}
+.send-message input{
+  width: 100%;
+  border-radius: 15px;
+  
+}
+.send-message textarea{
+  width: 100%;
+  border-radius: 15px;
+  background-color: #3131311e;
+  
+}
+.send-message button{
+  margin-left: 5px;
+  background-color: #366ee7;
 }

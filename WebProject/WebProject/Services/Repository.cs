@@ -155,6 +155,7 @@ namespace WebProject.Services
             {
                 Email = googleDto.Email,
                 Role = "user",
+                Username = user.Username,
                 Id = id
             };
 

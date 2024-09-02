@@ -15,8 +15,8 @@ const NewDrives = () => {
     const navigate = useNavigate()
     useEffect(() => 
         {
-            if(acceptClicked === true)
-                setAcceptClicked(false)
+            //if(acceptClicked === true)
+                //setAcceptClicked(false)
              GetDrives()
              .then(function (response) {
                 setNewDrives(response.data.filter(drive => drive.status === 'No_Driver'));

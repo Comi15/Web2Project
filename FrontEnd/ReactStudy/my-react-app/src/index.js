@@ -12,11 +12,9 @@ const router = createBrowserRouter(createRoutesFromElements(<Route path='*' elem
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <GoogleOAuthProvider clientId="139978929335-8cgbgav1hp23639k8p984kh6h64mm01d.apps.googleusercontent.com">
-  <React.StrictMode>
     <AuthProvider>
     <RouterProvider router={router} />
       </AuthProvider>
-  </React.StrictMode>
   </GoogleOAuthProvider>
 );
 

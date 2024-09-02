@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Korisnik\\Desktop\\WebProjekat\\WebProject\\WebProject\\WebProject.csproj": {}
+    "C:\\Users\\Korisnik\\Desktop\\Web2Project\\Web2Project\\WebProject\\WebProject\\WebProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Korisnik\\Desktop\\WebProjekat\\WebProject\\WebProject\\WebProject.csproj": {
+    "C:\\Users\\Korisnik\\Desktop\\Web2Project\\Web2Project\\WebProject\\WebProject\\WebProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Korisnik\\Desktop\\WebProjekat\\WebProject\\WebProject\\WebProject.csproj",
+        "projectUniqueName": "C:\\Users\\Korisnik\\Desktop\\Web2Project\\Web2Project\\WebProject\\WebProject\\WebProject.csproj",
         "projectName": "WebProject",
-        "projectPath": "C:\\Users\\Korisnik\\Desktop\\WebProjekat\\WebProject\\WebProject\\WebProject.csproj",
+        "projectPath": "C:\\Users\\Korisnik\\Desktop\\Web2Project\\Web2Project\\WebProject\\WebProject\\WebProject.csproj",
         "packagesPath": "C:\\Users\\Korisnik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Korisnik\\Desktop\\WebProjekat\\WebProject\\WebProject\\obj\\",
+        "outputPath": "C:\\Users\\Korisnik\\Desktop\\Web2Project\\Web2Project\\WebProject\\WebProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Korisnik\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -16,9 +16,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebProject.Hubs;
 using WebProject.Infrastructure;
 using WebProject.Interfaces;
 using WebProject.Mapping;
+using WebProject.Models;
 using WebProject.Services;
 
 namespace WebProject
@@ -69,6 +71,7 @@ namespace WebProject
             services.AddScoped<IRepository, Repository>();
             services.AddTransient<IEmailSender, EmailSenderService>();
             services.AddScoped<IDriveService, DriveService>();
+            services.AddSingleton<IDictionary<string, UserConnection>>(opts => new Dictionary<string, UserConnection>());       
 
 
 
@@ -111,6 +114,8 @@ namespace WebProject
                            .AllowCredentials();
                 });
             });
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,6 +139,7 @@ namespace WebProject
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
